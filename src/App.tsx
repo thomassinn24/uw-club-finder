@@ -27,15 +27,21 @@ const clubs: Club[] = [
 
 function App() {
   const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   const filteredClubs = clubs.filter((club) => {
     const query = search.toLowerCase();
 
-    return (
+    const matchesSearch =
       club.name.toLowerCase().includes(query) ||
       club.description.toLowerCase().includes(query) ||
-      club.category.toLowerCase().includes(query)
-    );
+      club.category.toLowerCase().includes(query);
+
+    const matchesCategory =
+      selectedCategory === "All" ||
+      club.category === selectedCategory;
+
+    return matchesSearch && matchesCategory;
   });
 
   return (
@@ -50,14 +56,28 @@ function App() {
         onChange={(event) => setSearch(event.target.value)}
       />
 
+      <div>
+        <button onClick={() => setSelectedCategory("All")}>
+          All
+        </button>
+
+        <button onClick={() => setSelectedCategory("Technology")}>
+          Technology
+        </button>
+
+        <button onClick={() => setSelectedCategory("Sports")}>
+          Sports
+        </button>
+      </div>
+
       {filteredClubs.map((club) => (
-      <ClubCard
-        key={club.name}
-        name={club.name}
-        description={club.description}
-        category={club.category}
-      />
-    ))}
+        <ClubCard
+          key={club.name}
+          name={club.name}
+          description={club.description}
+          category={club.category}
+        />
+      ))}
     </div>
   );
 }
