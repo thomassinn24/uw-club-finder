@@ -12,7 +12,8 @@ function App() {
     const matchesSearch =
       club.name.toLowerCase().includes(query) ||
       club.description.toLowerCase().includes(query) ||
-      club.category.toLowerCase().includes(query);
+      club.category.toLowerCase().includes(query) ||
+      club.tags.some((tag) => tag.toLowerCase().includes(query));
 
     const matchesCategory =
       selectedCategory === "All" ||
@@ -49,7 +50,7 @@ function App() {
 
       {filteredClubs.map((club) => (
         <ClubCard
-          key={club.name}
+          key={club.id}
           name={club.name}
           description={club.description}
           category={club.category}
