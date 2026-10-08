@@ -4,4 +4,5 @@ export type Club = {
   description: string;
   category: string;
   tags: string[];
+  website: string;
 };

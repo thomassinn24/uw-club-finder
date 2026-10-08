@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ClubCard from "./components/ClubCard";
 import { clubs } from "./data/clubs";
+import "./App.css";
 
 function App() {
   const [search, setSearch] = useState("");
@@ -22,40 +23,36 @@ function App() {
     return matchesSearch && matchesCategory;
   });
 
-  return (
-    <div>
+return (
+  <div className="app">
+    <header className="header">
       <h1>UW Club Finder</h1>
-      <p>Find a club that matches your interests.</p>
+      <p>Discover student organizations that match your interests.</p>
+    </header>
 
-      <input
-        type="text"
-        placeholder="Search clubs..."
-        value={search}
-        onChange={(event) => setSearch(event.target.value)}
-      />
+    <input
+      className="search-input"
+      type="text"
+      placeholder="Search clubs..."
+      value={search}
+      onChange={(event) => setSearch(event.target.value)}
+    />
 
-      <div>
-        <button onClick={() => setSelectedCategory("All")}>
-          All
-        </button>
+    <div className="category-filters">
+      {["All", "Technology", "Sports", "Arts", "Business"].map(
+        (category) => (
+          <button
+            key={category}
+            className={selectedCategory === category ? "active" : ""}
+            onClick={() => setSelectedCategory(category)}
+          >
+            {category}
+          </button>
+        )
+      )}
+    </div>
 
-        <button onClick={() => setSelectedCategory("Technology")}>
-          Technology
-        </button>
-
-        <button onClick={() => setSelectedCategory("Sports")}>
-          Sports
-        </button>
-
-        <button onClick={() => setSelectedCategory("Arts")}>
-          Arts
-        </button>
-
-        <button onClick={() => setSelectedCategory("Business")}>
-          Business
-        </button>
-      </div>
-
+    <div className="clubs-grid">
       {filteredClubs.map((club) => (
         <ClubCard
           key={club.id}
@@ -63,10 +60,12 @@ function App() {
           description={club.description}
           category={club.category}
           tags={club.tags}
+          website={club.website}
         />
       ))}
     </div>
-  );
+  </div>
+);
 }
 
 export default App;

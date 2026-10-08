@@ -1,47 +1,41 @@
+
 import type { Club } from "../types/Club";
 
 export const clubs: Club[] = [
   {
     id: 1,
-    name: "Husky Coding Project",
-    description: "Build software projects with other UW students.",
+    name: "DubHacks",
+    description:
+      "Participate in hackathons and explore technology and entrepreneurship.",
     category: "Technology",
-    tags: ["coding", "software", "programming"],
+    tags: ["coding", "hackathons", "startups"],
+    website: "https://dubhacks.co/",
   },
   {
     id: 2,
-    name: "DubHacks",
-    description: "Build projects and participate in hackathons.",
+    name: "Information Consulting Group",
+    description:
+      "Work on technology consulting projects and develop professional skills.",
     category: "Technology",
-    tags: ["hackathons", "coding", "entrepreneurship"],
+    tags: ["consulting", "software", "data"],
+    website: "https://www.linkedin.com/company/washingtonicg/home/",
   },
   {
     id: 3,
-    name: "Husky Running Club",
-    description: "Run and train with other UW students.",
-    category: "Sports",
-    tags: ["running", "fitness", "outdoors"],
+    name: "Kappa Theta Pi",
+    description:
+      "Build connections and develop professional skills in technology.",
+    category: "Technology",
+    tags: ["technology", "networking", "career"],
+    website: "https://ktpuw.org/",
   },
   {
     id: 4,
-    name: "UW Basketball Club",
-    description: "Connect with students who enjoy basketball.",
-    category: "Sports",
-    tags: ["basketball", "fitness", "competition"],
+    name: "Women in Informatics",
+    description:
+      "Connect with students through mentorship, networking, and tech events.",
+    category: "Technology",
+    tags: ["informatics", "mentorship", "networking"],
+    website: "https://ischool.uw.edu/student-groups",
   },
-  {
-    id: 5,
-    name: "UW Photography Club",
-    description: "Explore photography and creative projects.",
-    category: "Arts",
-    tags: ["photography", "art", "creativity"],
-  },
-  {
-    id: 6,
-    name: "UW Entrepreneurship Club",
-    description: "Explore startups and business ideas.",
-    category: "Business",
-    tags: ["startups", "business", "entrepreneurship"],
-  }
 ];
-

@@ -1,8 +1,10 @@
+
 type ClubCardProps = {
   name: string;
   description: string;
   category: string;
   tags: string[];
+  website: string;
 };
 
 function ClubCard({
@@ -10,19 +12,33 @@ function ClubCard({
   description,
   category,
   tags,
+  website,
 }: ClubCardProps) {
   return (
-    <div>
+    <article className="club-card">
       <h2>{name}</h2>
-      <p>{description}</p>
-      <p>{category}</p>
+      <p className="club-category">{category}</p>
+      <p className="club-description">{description}</p>
 
-      <div>
+      <div className="club-tags">
         {tags.map((tag) => (
-          <span key={tag}>{tag} </span>
+          <span className="club-tag" key={tag}>
+            {tag}
+          </span>
         ))}
       </div>
-    </div>
+
+      {website && (
+        <a
+          className="club-link"
+          href={website}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Visit Club Website
+        </a>
+      )}
+    </article>
   );
 }
 
