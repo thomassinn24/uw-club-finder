@@ -22,4 +22,26 @@ export const clubs: Club[] = [
     category: "Sports",
     tags: ["running", "fitness", "outdoors"],
   },
+  {
+    id: 4,
+    name: "UW Basketball Club",
+    description: "Connect with students who enjoy basketball.",
+    category: "Sports",
+    tags: ["basketball", "fitness", "competition"],
+  },
+  {
+    id: 5,
+    name: "UW Photography Club",
+    description: "Explore photography and creative projects.",
+    category: "Arts",
+    tags: ["photography", "art", "creativity"],
+  },
+  {
+    id: 6,
+    name: "UW Entrepreneurship Club",
+    description: "Explore startups and business ideas.",
+    category: "Business",
+    tags: ["startups", "business", "entrepreneurship"],
+  }
 ];
+

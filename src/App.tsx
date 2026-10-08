@@ -46,6 +46,14 @@ function App() {
         <button onClick={() => setSelectedCategory("Sports")}>
           Sports
         </button>
+
+        <button onClick={() => setSelectedCategory("Arts")}>
+          Arts
+        </button>
+
+        <button onClick={() => setSelectedCategory("Business")}>
+          Business
+        </button>
       </div>
 
       {filteredClubs.map((club) => (
@@ -54,6 +62,7 @@ function App() {
           name={club.name}
           description={club.description}
           category={club.category}
+          tags={club.tags}
         />
       ))}
     </div>
