@@ -1,29 +1,6 @@
 import { useState } from "react";
 import ClubCard from "./components/ClubCard";
-
-type Club = {
-  name: string;
-  description: string;
-  category: string;
-};
-
-const clubs: Club[] = [
-  {
-    name: "Husky Coding Project",
-    description: "Build software projects with other UW students.",
-    category: "Technology",
-  },
-  {
-    name: "DubHacks",
-    description: "Build projects and participate in hackathons.",
-    category: "Technology",
-  },
-  {
-    name: "Husky Running Club",
-    description: "Run and train with other UW students.",
-    category: "Sports",
-  },
-];
+import { clubs } from "./data/clubs";
 
 function App() {
   const [search, setSearch] = useState("");
