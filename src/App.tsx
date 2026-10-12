@@ -8,12 +8,24 @@ function App() {
   const [clubs, setClubs] = useState<Club[]>([]);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/clubs")
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch clubs");
+        }
+
+        return response.json();
+      })
       .then((data) => setClubs(data))
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        setError("Failed to load clubs. Please try again later.");
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const filteredClubs = clubs.filter((club) => {
@@ -62,16 +74,24 @@ return (
     </div>
 
     <div className="clubs-grid">
-      {filteredClubs.map((club) => (
-        <ClubCard
-          key={club.id}
-          name={club.name}
-          description={club.description}
-          category={club.category}
-          tags={club.tags}
-          website={club.website}
-        />
-      ))}
+      {loading ? (
+        <p>Loading clubs...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : filteredClubs.length === 0 ? (
+        <p>No clubs found.</p>
+      ) : (
+        filteredClubs.map((club) => (
+          <ClubCard
+            key={club.id}
+            name={club.name}
+            description={club.description}
+            category={club.category}
+            tags={club.tags}
+            website={club.website}
+          />
+        ))
+      )}
     </div>
   </div>
 );
