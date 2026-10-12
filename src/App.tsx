@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import type { Club } from "./types/Club";
 import ClubCard from "./components/ClubCard";
-import { clubs } from "./data/clubs";
 import "./App.css";
 
 function App() {
+
+  const [clubs, setClubs] = useState<Club[]>([]);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+
+  useEffect(() => {
+    fetch("/api/clubs")
+      .then((response) => response.json())
+      .then((data) => setClubs(data))
+      .catch((error) => console.error(error));
+  }, []);
 
   const filteredClubs = clubs.filter((club) => {
     const query = search.toLowerCase();

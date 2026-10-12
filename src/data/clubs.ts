@@ -1,4 +1,3 @@
-
 import type { Club } from "../types/Club";
 
 export const clubs: Club[] = [
