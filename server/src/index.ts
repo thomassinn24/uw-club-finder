@@ -1,10 +1,14 @@
 import express from "express";
-import { clubs } from "./data/clubs";
+import { pool } from "./db";
+import type { Club } from "../../src/types/Club";
 
 const app = express();
 const PORT = 3001;
 
-app.get("/api/clubs", (req, res) => {
+app.get("/api/clubs", async (req, res) => {
+  try {
+    const result = await pool.query<Club>("SELECT * FROM clubs");
+    const dbClubs = result.rows;
   const category = req.query.category;
   const search = req.query.search;
   const normalizedSearch =
@@ -12,12 +16,12 @@ app.get("/api/clubs", (req, res) => {
 
   const filteredClubs =
   typeof category === "string"
-    ? clubs.filter(
+    ? dbClubs.filter(
         (club) =>
           club.category.toLowerCase() ===
           category.trim().toLowerCase()
       )
-    : clubs;
+    : dbClubs;
 
   const searchResults =
   typeof search === "string"
@@ -32,8 +36,12 @@ app.get("/api/clubs", (req, res) => {
       )
     : filteredClubs;
 
-  res.json(searchResults);
-  });
+      res.json(searchResults);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Failed to fetch clubs" });
+      }
+    });
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
