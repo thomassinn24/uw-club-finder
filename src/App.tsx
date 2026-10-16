@@ -12,7 +12,15 @@ function App() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/clubs")
+    const controller = new AbortController();
+
+    const url = `/api/clubs?search=${encodeURIComponent(search)}${
+      selectedCategory === "All"
+        ? ""
+        : `&category=${encodeURIComponent(selectedCategory)}`
+    }`;
+
+    fetch(url, { signal: controller.signal })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch clubs");
@@ -20,29 +28,28 @@ function App() {
 
         return response.json();
       })
-      .then((data) => setClubs(data))
+      .then((data) => {
+        if (!controller.signal.aborted) {
+          setClubs(data);
+          setError(null);
+        }
+      })
       .catch((error) => {
+        if (controller.signal.aborted) {
+          return;
+        }
+
         console.error(error);
         setError("Failed to load clubs. Please try again later.");
       })
-      .finally(() => setLoading(false));
-  }, []);
+      .finally(() => {
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
+      });
+  return () => controller.abort(); }, [search, selectedCategory]);
 
-  const filteredClubs = clubs.filter((club) => {
-    const query = search.toLowerCase();
-
-    const matchesSearch =
-      club.name.toLowerCase().includes(query) ||
-      club.description.toLowerCase().includes(query) ||
-      club.category.toLowerCase().includes(query) ||
-      club.tags.some((tag) => tag.toLowerCase().includes(query));
-
-    const matchesCategory =
-      selectedCategory === "All" ||
-      club.category === selectedCategory;
-
-    return matchesSearch && matchesCategory;
-  });
+ const filteredClubs = clubs;
 
 return (
   <div className="app">
@@ -56,7 +63,11 @@ return (
       type="text"
       placeholder="Search clubs..."
       value={search}
-      onChange={(event) => setSearch(event.target.value)}
+      onChange={(e) => {
+        setLoading(true);
+        setError(null);
+        setSearch(e.target.value);
+      }}
     />
 
     <div className="category-filters">
@@ -65,7 +76,15 @@ return (
           <button
             key={category}
             className={selectedCategory === category ? "active" : ""}
-            onClick={() => setSelectedCategory(category)}
+            onClick={() => {
+              if (selectedCategory === category) {
+                return;
+              }
+              
+              setLoading(true);
+              setError(null);
+              setSelectedCategory(category);
+            }}
           >
             {category}
           </button>
